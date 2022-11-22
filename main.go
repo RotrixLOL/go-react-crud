@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -19,7 +20,7 @@ func main() {
 	// Load .env file
 	err := godotenv.Load()
 	if err != nil {
-		panic("Error ocurred while loading .env file")
+		fmt.Println("Error ocurred while loading .env file")
 	}
 
 	// Declare server port
