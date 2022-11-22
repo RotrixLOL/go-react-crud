@@ -98,6 +98,28 @@ func main() {
 		})
 	})
 
+	// Delete user
+	api.Delete("/users", func(c *fiber.Ctx) error {
+		var user models.User
+		c.BodyParser(&user)
+
+		id := user.Id
+
+		_, err = coll.DeleteOne(context.TODO(), bson.M{"_id": id})
+
+		if err != nil {
+			return c.JSON(&fiber.Map{
+				"status": fiber.StatusInternalServerError,
+				"msg":    "Error while deleting specific user",
+			})
+		}
+
+		return c.JSON(&fiber.Map{
+			"status": fiber.StatusOK,
+			"msg":    "Deleted user with id " + c.Params("id"),
+		})
+	})
+
 	// Listen on port 5000 | env port variable from x service
 	log.Fatal(app.Listen(":" + PORT))
 }
